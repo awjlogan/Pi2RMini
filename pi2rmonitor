@@ -1,0 +1,20 @@
+#!/bin/bash
+
+PATH=/usr/bin:/home/pi/wiringPi/gpio
+
+# monitoring script for Pi2RMini [ http://awjlogan.wordpress.com ]
+
+echo "Pi2RMini started"
+
+gpio -g mode 7 out
+gpio -g write 7 0
+sudo sleep 0.5
+gpio -g mode 7 in
+gpio -g write 7 0
+
+# wait for falling edge on GPIO 7
+gpio -g wfi 7 falling
+gpio -g mode 7 out
+gpio -g write 7 0
+echo "Pi2RMini has requested a shutdown."
+sudo shutdown -h now
